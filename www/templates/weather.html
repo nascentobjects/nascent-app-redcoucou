@@ -1,0 +1,21 @@
+﻿
+<ion-view view-title="Weather">
+    <ion-content>
+        <div class="im-wrapper">
+            <div class="list">
+                    <ion-item class="item-divider">
+                        Units
+                    </ion-item>
+                    <ion-radio ng-model="settings.unitsInF" ng-value="true" ng-change="updateSettings()">Fahrenheit</ion-radio>
+                    <ion-radio ng-model="settings.unitsInF" ng-value="false" ng-change="updateSettings()">Celsius</ion-radio>
+                    <!--
+                    <select ng-model="units" ng-change="updateSettings()">
+                        <option>Fahrenheit</option>
+                        <option>Celsius</option>
+                    </select>
+                    -->
+                </label>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

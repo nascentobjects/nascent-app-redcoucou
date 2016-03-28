@@ -1,0 +1,32 @@
+﻿
+<ion-view view-title="Wireless Setup">
+    <ion-content>
+        <div class="im-wrapper">
+            <h4 class="border-top">Connection</h4>
+            <div class="list list-inset">
+                <div class="item">
+                    Status: <span ng-show="settings.wifiQuality > 0" class="wifi-connected">Connected</span><span ng-show="settings.wifiQuality == 0" class="wifi-disconnected">Disconnected</span>
+                </div>
+                <div class="item">
+                    Access Point: {{settings.connectedAccessPoint}}
+                </div>
+                <div class="item">
+                    IP: {{settings.connectedIP}}
+                </div>
+            </div>
+            <h4 class="border-top">Access Point</h4>
+            <div class="list">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">SSID</span>
+                    <input type="text" placeholder="SSID" ng-model="settings.wifiAccessPoint" ng-change="showConnectButton()">
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Password</span>
+                    <input type="password" placeholder="Password" ng-model="settings.wifiPassword" ng-change="showConnectButton()">
+                </label>
+            </div>
+
+            <button class="button icon-left ion-wifi button-balanced pull-right" ng-show="hasConnectButton" ng-click="connectWireless()">Connect</button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,89 @@
+﻿
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-nascent" ng-show="!isOnPage('music')">
+            <!--
+            <ion-nav-back-button class="no-text">
+            </ion-nav-back-button>
+            -->
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <button id="fab" class="button button-positive button-fab button-fab-bottom-left" style="visibility: hidden;">
+            <i class="icon ion-social-twitter"></i>
+        </button>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+        <ion-header-bar class="expanded">
+            <img src="img/logo.png" class="avatar motion spin fade">
+            <div class="menu-bottom">
+                <span ng-show="isGenericApp() && !bikeEnabled && !musicEnabled">Nascent Hermes</span>
+                <span ng-show="isGenericApp() && bikeEnabled">Nascent Bike Computer</span>
+                <span ng-show="isGenericApp() && musicEnabled">Nascent Portable Speaker</span>
+                <span ng-show="isBikeComputer()">Nascent Bike Computer</span>
+                <span ng-show="isSmartClock()">Nascent Smart Clock</span>
+            </div>
+        </ion-header-bar>
+        <ion-content class="stable-bg has-expanded-header">
+            <ion-list>
+                <!--
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('alarms') }" href="#/app/alarms" ng-show="isSmartClock()">
+                    <i class="icon ion-android-alarm-clock"></i>
+                    Alarms
+                </ion-item>
+                -->
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('modules') }" href="#/app/modules" ng-show="isGenericApp()">
+                    <i class="icon ion-calendar"></i>
+                    Modules
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('music') }" href="#/app/music" ng-show="isSmartClock() || isGenericApp() && musicEnabled">
+                    <i class="icon ion-music-note"></i>
+                    Music
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('weather') }" href="#/app/weather" ng-show="isSmartClock()">
+                    <i class="icon ion-ios-partlysunny-outline"></i>
+                    Weather
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('directions') }" href="#/app/directions" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled">
+                    <i class="icon ion-android-bicycle"></i>
+                    Route
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('settings') }" href="#/app/settings" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled">
+                    <i class="icon ion-gear-b"></i>
+                    Settings
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('wifisetup') }" href="#/app/wifisetup">
+                    <i class="icon ion-wifi"></i>
+                    Wireless Setup
+                </ion-item>
+                <div class="row range">
+                    <i class="icon ion-volume-low dark"></i>
+                    <input type="range" name="volume" min="0" max="100" ng-model="settings.volume" ng-change="changeVolume()">
+                    <i class="icon ion-volume-high dark"></i>
+                </div>
+                <!--
+                <ion-item nav-clear menu-close href="#/app/components">
+                    Components+
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/app/extensions">
+                    Extensions
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/app/lists">
+                    Motion Lists
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/app/motion">
+                    Motion Elements
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/app/ink">
+                    Ink
+                </ion-item>
+                -->
+            </ion-list>
+        </ion-content>
+        <div style="position: absolute; right: 0; bottom: 0; left: 0; padding-left: 10px; padding-bottom: 10px;">
+            <button class="button button-fab button-assertive icon ion-log-out" menu-close ng-click="eject()"></button>
+        </div>
+    </ion-side-menu>
+</ion-side-menus>

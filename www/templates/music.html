@@ -1,0 +1,59 @@
+﻿
+<ion-view view-title="Music">
+    <ion-nav-bar class="bar-nascent">
+        <!--
+        <ion-nav-back-button class="no-text">
+        </ion-nav-back-button>
+        -->
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right" ng-show="isOnPage('music')">
+            <button class="button button-light button-fab icon ion-skip-backward" ng-click="skipBack()"></button>
+            <button class="button button-light button-fab" style="margin-left: 8px" ng-click="play()">
+                <i class="icon ion-play" ng-show="playData.paused"></i>
+                <i class="icon ion-pause" ng-show="!playData.paused"></i>
+            </button>
+            <button class="button button-light button-fab icon ion-skip-forward" style="margin-left: 8px" ng-click="skipForward()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content>
+        <ion-list>
+            <div class="item" ng-class="{ 'item-nascent': $index === 0 }" href="#" ng-click="playTrack($index)" ng-repeat="track in getSortedTracks()">
+                <h2>{{track.artist}}</h2>
+                <p>{{track.song}}</p>
+            </div>
+        </ion-list>
+    </ion-content>
+        <!--
+        <div class="im-wrapper">
+            <ion-content class="spotify-header">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="button button-clear button-large music-button" ng-click="skipBack()">
+                            <i class="icon ion-skip-backward"></i>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="button button-clear button-large music-button" ng-click="play()">
+                            <i class="icon ion-play" ng-show="playData.paused"></i>
+                            <i class="icon ion-pause" ng-show="!playData.paused"></i>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="button button-clear button-large music-button" ng-click="skipForward()">
+                            <i class="icon ion-skip-forward"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row range">
+                    <i class="icon ion-volume-low"></i>
+                    <input type="range" name="volume" min="50" max="100" ng-model="playData.volume" ng-change="changeVolume()">
+                    <i class="icon ion-volume-high"></i>
+                </div>
+            </ion-content>
+            <ion-content class="spotify-content">
+            </ion-content>
+        </div>
+        -->
+</ion-view>
