@@ -19,9 +19,9 @@
         <ion-header-bar class="expanded">
             <img src="img/logo.png" class="avatar motion spin fade">
             <div class="menu-bottom">
-                <span ng-show="isGenericApp() && !bikeEnabled && !musicEnabled">Nascent Hermes</span>
-                <span ng-show="isGenericApp() && bikeEnabled">Nascent Bike Computer</span>
-                <span ng-show="isGenericApp() && musicEnabled">Nascent Portable Speaker</span>
+                <span ng-show="isGenericApp() && !bikeEnabled1 && !musicEnabled1 && !musicEnabled2">Nascent Hermes</span>
+                <span ng-show="isGenericApp() && bikeEnabled1">Nascent Bike Computer</span>
+                <span ng-show="isGenericApp() && (musicEnabled1 || musicEnabled2)">Nascent Portable Speaker</span>
                 <span ng-show="isBikeComputer()">Nascent Bike Computer</span>
                 <span ng-show="isSmartClock()">Nascent Smart Clock</span>
             </div>
@@ -38,7 +38,7 @@
                     <i class="icon ion-calendar"></i>
                     Modules
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('music') }" href="#/app/music" ng-show="isSmartClock() || isGenericApp() && musicEnabled">
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('music') }" href="#/app/music" ng-show="isSmartClock() || isGenericApp() && (musicEnabled1 || musicEnabled2)">
                     <i class="icon ion-music-note"></i>
                     Music
                 </ion-item>
@@ -46,11 +46,11 @@
                     <i class="icon ion-ios-partlysunny-outline"></i>
                     Weather
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('directions') }" href="#/app/directions" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled">
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('directions') }" href="#/app/directions" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled1">
                     <i class="icon ion-android-bicycle"></i>
                     Route
                 </ion-item>
-                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('settings') }" href="#/app/settings" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled">
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('settings') }" href="#/app/settings" ng-show="isBikeComputer() || isGenericApp() && bikeEnabled1">
                     <i class="icon ion-gear-b"></i>
                     Settings
                 </ion-item>

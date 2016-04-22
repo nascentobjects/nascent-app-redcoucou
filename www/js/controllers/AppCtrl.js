@@ -17,6 +17,14 @@
         NascentBLE.sendEvent('eject');
     };
 
+    $scope.eject1 = function () {
+        NascentBLE.sendEvent('eject1');
+    };
+
+    $scope.eject2 = function () {
+        NascentBLE.sendEvent('eject2');
+    };
+
     var navIcons = document.getElementsByClassName('ion-navicon');
     for (var i = 0; i < navIcons.length; i++) {
         navIcons.addEventListener('click', function () {

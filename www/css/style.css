@@ -317,6 +317,17 @@ p {
     border-radius: 2vw;
 }
 
+.module-right-1x2 {
+    position: absolute;
+    left: 45vw;
+    top: 8vw;
+    width: 39.5vw;
+    height: 78vw;
+    background: #222;
+    border: 2px solid #aaa;
+    border-radius: 2vw;
+}
+
 .module-2x2 {
     position: absolute;
     left: 5vw;

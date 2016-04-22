@@ -21,10 +21,10 @@
         }
     },
     "dependent_plugins": {
-        "cordova-plugin-device": {
+        "cordova-plugin-app-event": {
             "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
         },
-        "cordova-plugin-app-event": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
         }
     }
