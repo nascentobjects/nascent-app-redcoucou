@@ -358,3 +358,15 @@ p {
     font-size: 4em;
     color: #aaa;
 }
+
+.alexa-button {
+    width: 30vw !important;
+    height: 30vw !important;
+    position: absolute;
+    left: 35vw;
+    top: 35vw;
+}
+
+.alexa-button:before {
+    font-size: 10vw !important;
+}

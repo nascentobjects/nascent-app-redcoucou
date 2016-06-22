@@ -1,0 +1,9 @@
+﻿
+<ion-view view-title="Alexa">
+    <ion-content>
+        <div class="im-wrapper">
+            <button ng-show="!talking" class="alexa-button button button-fab button-nascent icon ion-mic-c" ng-click="alexaTalk()"></button>
+            <button ng-show="talking" class="alexa-button button button-fab button-danger icon ion-mic-c" ng-click="alexaStop()"></button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -7,7 +7,13 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+        },
         "cordova-plugin-bluetoothle": {
+            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+        },
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
         },
         "cordova-plugin-geolocation": {
@@ -20,12 +26,5 @@
             "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
         }
     },
-    "dependent_plugins": {
-        "cordova-plugin-app-event": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
-        }
-    }
+    "dependent_plugins": {}
 }

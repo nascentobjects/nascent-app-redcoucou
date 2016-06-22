@@ -5,24 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic', 'ionic-material']);
 
-/*var kProductId = 'com.nascentobjects.hermes-clock';*/
-/*var kProductId = 'com.nascentobjects.hermes-bike';*/
-var kProductId = 'com.nascentobjects.hermes-app';
+var kProductId = 'com.nascentobjects.NascentWifi';
 app.run(function ($ionicPlatform, $rootScope) {
     $rootScope.kProductId = kProductId;
-
-    $rootScope.isBikeComputer = function() {
-        return $rootScope.kProductId === 'com.nascentobjects.hermes-bike';
-    };
-
-    $rootScope.isSmartClock = function() {
-        return $rootScope.kProductId === 'com.nascentobjects.hermes-clock';
-    };
-
-    $rootScope.isGenericApp = function() {
-        return $rootScope.kProductId === 'com.nascentobjects.hermes-app';
-    };
-
 
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -50,82 +35,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'AppCtrl'
     })
 
-    .state('app.lists', {
-        url: '/lists',
+    .state('app.alexa', {
+        url: '/alexa',
         views: {
             'menuContent': {
-                templateUrl: 'templates/lists.html',
-                controller: 'ListsCtrl'
-            }
-        }
-    })
-
-    .state('app.ink', {
-        url: '/ink',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/ink.html',
-                controller: 'InkCtrl'
-            }
-        }
-    })
-
-    .state('app.motion', {
-        url: '/motion',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/motion.html',
-                controller: 'MotionCtrl'
-            }
-        }
-    })
-
-    .state('app.components', {
-        url: '/components',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/components.html',
-                controller: 'ComponentsCtrl'
-            }
-        }
-    })
-
-    .state('app.extensions', {
-        url: '/extensions',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/extensions.html',
-                controller: 'ExtensionsCtrl'
-            }
-        }
-    })
-
-    .state('app.modules', {
-        url: '/modules',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/modules.html',
-                controller: 'ModulesCtrl'
-            }
-        }
-    })
-
-    .state('app.directions', {
-        url: '/directions',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/directions.html',
-                controller: 'DirectionsCtrl'
-            }
-        }
-    })
-
-    .state('app.settings', {
-        url: '/settings',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/settings.html',
-                controller: 'SettingsCtrl'
+                templateUrl: 'templates/alexa.html',
+                controller: 'AlexaCtrl'
             }
         }
     })
@@ -139,34 +54,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     })
-
-    .state('app.music', {
-        url: '/music',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/music.html',
-                controller: 'MusicCtrl'
-            }
-        }
-    })
-
-    .state('app.weather', {
-        url: '/weather',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/weather.html',
-                controller: 'WeatherCtrl'
-            }
-        }
-    })
     ;
 
     // if none of the above states are matched, use this as the fallback
-    if (kProductId === 'com.nascentobjects.hermes-bike') {
-        $urlRouterProvider.otherwise('/app/directions');
-    } else if (kProductId === 'com.nascentobjects.hermes-app') {
-        $urlRouterProvider.otherwise('/app/modules');
-    } else {
-        $urlRouterProvider.otherwise('/app/music');
-    }
+    $urlRouterProvider.otherwise('/app/wifisetup');
 });

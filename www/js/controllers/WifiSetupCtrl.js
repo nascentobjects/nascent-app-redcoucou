@@ -1,8 +1,13 @@
-﻿app.controller('WifiSetupCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, $ionicLoading) {
+﻿/*
+ * @author Andrew Robberts <andrew@nascentobjects.com>
+ * @copyright 2015-2016 Nascent Objects Inc. All rights reserved.
+ */
+app.controller('WifiSetupCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, $ionicLoading) {
     ionicMaterialInk.displayEffect();
 
     $scope.getWifiStatus = function() {
         NascentBLE.sendEvent('needwifi');
+        /*
         $ionicLoading.show({
             content: 'Checking Wifi Status',
             animation: 'fade-in',
@@ -10,6 +15,7 @@
             maxWidth: 200,
             showDelay: 0
         });
+        */
     };
 
     $scope.$on('$ionicView.afterEnter', function() {

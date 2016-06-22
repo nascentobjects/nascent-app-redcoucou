@@ -1,7 +1,7 @@
 {
-  "name": "hermes-clock-app",
+  "name": "nascent-wifisetup",
   "version": "1.1.1",
-  "description": "hermes-clock-app: An Ionic project",
+  "description": "Nascent Wifi Setup Companion Application",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
