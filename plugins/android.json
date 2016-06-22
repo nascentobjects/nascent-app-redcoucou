@@ -8,22 +8,22 @@
     },
     "installed_plugins": {
         "cordova-plugin-app-event": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         },
         "cordova-plugin-bluetoothle": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         },
         "de.appplant.cordova.plugin.local-notification": {
-            "PACKAGE_NAME": "com.ionicframework.hermesclockapp955956"
+            "PACKAGE_NAME": "com.ionicframework.nascentwifisetup955956"
         }
     },
     "dependent_plugins": {}
