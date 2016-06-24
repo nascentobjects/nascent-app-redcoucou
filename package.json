@@ -31,5 +31,6 @@
   "cordovaPlatforms": [
     "ios",
     "android"
-  ]
+  ],
+  "license": "BSD"
 }
