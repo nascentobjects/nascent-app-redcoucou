@@ -31,37 +31,49 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.service('NascentBLE', function($ionicLoading, $rootScope) {
+app.service('NascentBLE', function($rootScope, $location, $ionicLoading) {
     var NascentBLE = this;
+
+    var fakeModules = false;
 
     NascentBLE.pendingEvents = [];
     NascentBLE.pendingOns = [];
+    NascentBLE.connected = false;
+    NascentBLE.foundCandidate = false;
+
+    NascentBLE.isConnected = function() {
+        return fakeModules || NascentBLE.connected;
+    };
+
+    NascentBLE.modules = {};
+    if (fakeModules) {
+        NascentBLE.modules = { main: true, speaker: true };
+    }
 
     document.addEventListener('deviceready', function() {
         var a;
 
         NascentBLE.dataSync = new NascentDataSync({ id: $rootScope.kProductId, verbose: true });
+        NascentBLE.dataSync.on('no_permissions', function() {
+            $location.path('#/app/nopermission');
+        });
 
-        $ionicLoading.show({
-            content: 'Connecting to Device',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
+        NascentBLE.dataSync.on('found_candidate', function() {
+            NascentBLE.foundCandidate = true;
+            $rootScope.$apply();
         });
 
         NascentBLE.dataSync.on('disconnect', function() {
-            $ionicLoading.show({
-                content: 'Connecting to Device',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
+            NascentBLE.foundCandidate = false;
+            NascentBLE.connected = false;
+            NascentBLE.modules = {};
+            $ionicLoading.hide();
+            $location.path('#/app/device');
+            $rootScope.$apply();
         });
 
         NascentBLE.dataSync.on('connect', function() {
-            $ionicLoading.hide();
+            NascentBLE.connected = true;
 
             setTimeout(function() {
                 // register for all pending events
@@ -78,6 +90,44 @@ app.service('NascentBLE', function($ionicLoading, $rootScope) {
                     console.log('Sending Pending ' + e.eventName);
                 }
                 NascentBLE.pendingEvents = [];
+
+                NascentBLE.sendEvent('querymodules');
+
+                NascentBLE.modules = { main: true };
+                $rootScope.$apply();
+
+                if (NascentBLE.eventModules) {
+                    NascentBLE.dataSync.removeListener('modules', NascentBLE.eventModules);
+                    nascentBLE.eventModules = null;
+                }
+
+                if (NascentBLE.eventMConn) {
+                    NascentBLE.dataSync.removeListener('mconn', NascentBLE.eventMConn);
+                    nascentBLE.eventMConn = null;
+                }
+
+                if (NascentBLE.eventMDisc) {
+                    NascentBLE.dataSync.removeListener('mdisc', NascentBLE.eventMDisc);
+                    nascentBLE.eventMDisc = null;
+                }
+
+                NascentBLE.eventModules = NascentBLE.dataSync.on('modules', function(moduleNames) {
+                    NascentBLE.modules = { main: true };
+                    for (var a=0; a<moduleNames.length; ++a) {
+                        NascentBLE.modules[moduleNames[a]] = true;
+                    }
+                    $rootScope.$apply();
+                });
+
+                NascentBLE.eventMConn = NascentBLE.dataSync.on('mconn', function(moduleName) {
+                    NascentBLE.modules[moduleName] = true;
+                    $rootScope.$apply();
+                });
+
+                NascentBLE.eventMDisc = NascentBLE.dataSync.on('mdisc', function(moduleName) {
+                    NascentBLE.modules[moduleName] = false;
+                    $rootScope.$apply();
+                });
             }, 1000);
         });
     }, false);

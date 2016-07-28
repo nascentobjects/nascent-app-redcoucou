@@ -1,0 +1,24 @@
+﻿
+<ion-view view-title="Camera">
+    <ion-content>
+        <div class="im-wrapper">
+            <div class="error-well" ng-show="!Settings.wifi.wifiQuality">
+                <span style="float: left">Your camera will not be accessible until you setup WiFi.</span>
+                <a class="button button-small icon-left ion-wifi button-balanced pull-right" href="#/app/wifisetup">Setup Wifi</a>
+            </div>
+            <div class="option-choice-tile" ng-class="{ 'option-choice-tile-selected': !Settings.settings.camera }" ng-click="change(false)">
+                <img class="option-icon" src="img/camera_off.png" />
+                <h4 class="option-title">Off</h4>
+            </div>
+            <div class="option-choice-tile" ng-class="{ 'option-choice-tile-selected': Settings.settings.camera }" ng-click="change(true)">
+                <img class="option-icon" src="img/camera.png" />
+                <h4 class="option-title">RTSP</h4>
+            </div>
+            <button class="button icon-left ion-checkmark button-balanced pull-right" ng-show="changed" ng-click="updateCamera()">Apply</button>
+
+            <h4 class="border-top">RTSP URL:</h4>
+            <p>{{Settings.settings.rtspUrl}}</p>
+            <button class="button icon-left ion-clipboard button-balanced pull-right" ng-click="copyURL()">Copy URL</button>
+        </div>
+    </ion-content>
+</ion-view>

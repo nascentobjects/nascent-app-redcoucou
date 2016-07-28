@@ -31,52 +31,6 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.controller('WifiSetupCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, Settings) {
+app.controller('AboutCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE) {
     ionicMaterialInk.displayEffect();
-
-    $scope.getWifiStatus = function() {
-        NascentBLE.sendEvent('needwifi');
-    };
-
-    $scope.$on('$ionicView.afterEnter', function() {
-        $scope.getWifiStatus();
-    });
-
-    $scope.Settings = Settings;
-
-    Settings.wifi = {
-        wifiQuality: 0,
-        wifiAccessPoint: '',
-        wifiPassword: '',
-        connectedAccessPoint: '',
-    };
-
-    NascentBLE.on('wificonn', function(connInfo) {
-        if (Settings.wifi.wifiAccessPoint === '') {
-            Settings.wifi.wifiAccessPoint = connInfo.ssid;
-        }
-        Settings.wifi.connectedAccessPoint = connInfo.ssid;
-        Settings.wifi.wifiQuality = connInfo.quality;
-        Settings.wifi.connectedIP = connInfo.ip;
-        $scope.$apply();
-    });
-
-    $scope.connectWireless = function() {
-        NascentBLE.sendEvent('connect_wifi', {
-            ssid: Settings.wifi.wifiAccessPoint,
-            password: Settings.wifi.wifiPassword
-        });
-        $scope.hideConnectButton();
-        $scope.getWifiStatus();
-    };
-
-    $scope.hasConnectButton = false;
-
-    $scope.showConnectButton = function() {
-        $scope.hasConnectButton = true;
-    };
-
-    $scope.hideConnectButton = function() {
-        $scope.hasConnectButton = false;
-    };
 });

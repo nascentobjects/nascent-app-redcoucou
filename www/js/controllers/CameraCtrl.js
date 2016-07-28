@@ -31,52 +31,34 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.controller('WifiSetupCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, Settings) {
+app.controller('CameraCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, Settings) {
     ionicMaterialInk.displayEffect();
-
-    $scope.getWifiStatus = function() {
-        NascentBLE.sendEvent('needwifi');
-    };
-
-    $scope.$on('$ionicView.afterEnter', function() {
-        $scope.getWifiStatus();
-    });
 
     $scope.Settings = Settings;
 
-    Settings.wifi = {
-        wifiQuality: 0,
-        wifiAccessPoint: '',
-        wifiPassword: '',
-        connectedAccessPoint: '',
+    $scope.changed = false;
+
+    $scope.change = function(camera) {
+        Settings.settings.camera = !!camera;
+        $scope.changed = true;
     };
 
-    NascentBLE.on('wificonn', function(connInfo) {
-        if (Settings.wifi.wifiAccessPoint === '') {
-            Settings.wifi.wifiAccessPoint = connInfo.ssid;
-        }
-        Settings.wifi.connectedAccessPoint = connInfo.ssid;
-        Settings.wifi.wifiQuality = connInfo.quality;
-        Settings.wifi.connectedIP = connInfo.ip;
-        $scope.$apply();
-    });
-
-    $scope.connectWireless = function() {
-        NascentBLE.sendEvent('connect_wifi', {
-            ssid: Settings.wifi.wifiAccessPoint,
-            password: Settings.wifi.wifiPassword
-        });
-        $scope.hideConnectButton();
-        $scope.getWifiStatus();
+    $scope.updateCamera = function() {
+        $scope.changed = false;
+        NascentBLE.sendEvent('cam', Settings.settings.camera);
     };
 
-    $scope.hasConnectButton = false;
-
-    $scope.showConnectButton = function() {
-        $scope.hasConnectButton = true;
-    };
-
-    $scope.hideConnectButton = function() {
-        $scope.hasConnectButton = false;
+    $scope.copyURL = function() {
+        var targetId = '__rtsp_url';
+        var target = document.createElement('textarea');
+        target.style.position = 'absolute';
+        target.style.left = '-9999px';
+        target.style.top = '0';
+        target.id = targetId;
+        document.body.appendChild(target);
+        target.textContent = Settings.settings.rtspUrl;
+        target.focus();
+        target.setSelectionRange(0, Settings.settings.rtspUrl.length);
+        document.execCommand('copy');
     };
 });

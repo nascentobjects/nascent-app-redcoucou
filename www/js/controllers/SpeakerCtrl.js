@@ -31,52 +31,39 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.controller('WifiSetupCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, Settings) {
+app.controller('SpeakerCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, Settings, $location, $ionicLoading) {
     ionicMaterialInk.displayEffect();
 
-    $scope.getWifiStatus = function() {
-        NascentBLE.sendEvent('needwifi');
-    };
+    $scope.Settings = Settings;
+    $scope.startedInBluetooth = Settings.settings.speaker === 'bluetooth';
 
     $scope.$on('$ionicView.afterEnter', function() {
-        $scope.getWifiStatus();
+        $scope.startedInBluetooth = Settings.settings.speaker === 'bluetooth';
     });
 
-    $scope.Settings = Settings;
+    $scope.changed = false;
 
-    Settings.wifi = {
-        wifiQuality: 0,
-        wifiAccessPoint: '',
-        wifiPassword: '',
-        connectedAccessPoint: '',
-    };
-
-    NascentBLE.on('wificonn', function(connInfo) {
-        if (Settings.wifi.wifiAccessPoint === '') {
-            Settings.wifi.wifiAccessPoint = connInfo.ssid;
+    $scope.change = function(speaker) {
+        if (speaker) {
+            Settings.settings.speaker = speaker;
         }
-        Settings.wifi.connectedAccessPoint = connInfo.ssid;
-        Settings.wifi.wifiQuality = connInfo.quality;
-        Settings.wifi.connectedIP = connInfo.ip;
-        $scope.$apply();
-    });
-
-    $scope.connectWireless = function() {
-        NascentBLE.sendEvent('connect_wifi', {
-            ssid: Settings.wifi.wifiAccessPoint,
-            password: Settings.wifi.wifiPassword
-        });
-        $scope.hideConnectButton();
-        $scope.getWifiStatus();
+        $scope.changed = true;
     };
 
-    $scope.hasConnectButton = false;
-
-    $scope.showConnectButton = function() {
-        $scope.hasConnectButton = true;
-    };
-
-    $scope.hideConnectButton = function() {
-        $scope.hasConnectButton = false;
-    };
+    $scope.updateSpeaker = function() {
+        if (Settings.settings.speaker === 'bluetooth') {
+            alert('Enabling bluetooth discoverable will cause the device to be disconnected from your mobile app.  To reconnect and modify settings you will need to push the button on the back of your device again.');
+        }
+        $scope.changed = false;
+        NascentBLE.sendEvent('spk', Settings.settings.speaker);
+        if (Settings.settings.speaker === 'bluetooth') {
+            $ionicLoading.show({
+                content: 'Setting up Bluetooth',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+        }
+    }
 });

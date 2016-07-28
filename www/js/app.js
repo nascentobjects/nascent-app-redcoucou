@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var app = angular.module('starter', ['ionic', 'ionic-material']);
 
-var kProductId = 'com.nascentobjects.NascentWifi';
+var kProductId = 'com.nascentobjects.RedCouCou';
 app.run(function ($ionicPlatform, $rootScope) {
     $rootScope.kProductId = kProductId;
 
@@ -35,12 +35,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'AppCtrl'
     })
 
-    .state('app.alexa', {
-        url: '/alexa',
+    .state('app.device', {
+        url: '/device',
         views: {
             'menuContent': {
-                templateUrl: 'templates/alexa.html',
-                controller: 'AlexaCtrl'
+                templateUrl: 'templates/device.html',
+                controller: 'DeviceCtrl'
             }
         }
     })
@@ -54,8 +54,58 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     })
+
+    .state('app.speaker', {
+        url: '/speaker',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/speaker.html',
+                controller: 'SpeakerCtrl'
+            }
+        }
+    })
+
+    .state('app.camera', {
+        url: '/camera',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/camera.html',
+                controller: 'CameraCtrl'
+            }
+        }
+    })
+
+    .state('app.about', {
+        url: '/about',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/about.html',
+                controller: 'AboutCtrl'
+            }
+        }
+    })
+
+    .state('app.troubleshooting', {
+        url: '/troubleshooting',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/troubleshooting.html',
+                controller: 'AboutCtrl'
+            }
+        }
+    })
+
+    .state('app.nopermission', {
+        url: '/nopermission',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/nopermission.html',
+                controller: 'AboutCtrl'
+            }
+        }
+    })
     ;
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/wifisetup');
+    $urlRouterProvider.otherwise('/app/device');
 });

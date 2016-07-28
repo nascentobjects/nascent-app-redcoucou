@@ -31,7 +31,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.controller('AlexaCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, $rootScope, $location, $ionicLoading) {
+app.controller('AlexaCtrl', function ($scope, $stateParams, ionicMaterialInk, NascentBLE, $rootScope, $location) {
     ionicMaterialInk.displayEffect();
 
     $scope.talking = false;
@@ -41,13 +41,6 @@ app.controller('AlexaCtrl', function ($scope, $stateParams, ionicMaterialInk, Na
 
     $scope.alexaTalk = function() {
         NascentBLE.sendEvent('alexa_talk');
-        $ionicLoading.show({
-            content: 'Connecting to Alexa',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
-        });
     };
 
     $scope.alexaStop = function() {

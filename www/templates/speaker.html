@@ -1,0 +1,46 @@
+﻿
+<ion-view view-title="Speaker">
+    <ion-content>
+        <div class="im-wrapper">
+            <div class="error-well" ng-show="!Settings.wifi.wifiQuality && !startedInBluetooth">
+                <span style="float: left">WiFi streaming will not be accessible until you setup WiFi.</span>
+                <a class="button button-small icon-left ion-wifi button-balanced pull-right" href="#/app/wifisetup">Setup Wifi</a>
+            </div>
+
+            <div class="option-choice-tile" ng-class="{ 'option-choice-tile-selected': Settings.settings.speaker !== 'airplay' && Settings.settings.speaker !== 'bluetooth' }" ng-click="change('off')">
+                <img class="option-icon" src="img/mute.png" />
+                <h4 class="option-title">Off</h4>
+            </div>
+            <div class="option-choice-tile" ng-class="{ 'option-choice-tile-selected': Settings.settings.speaker === 'airplay' }" ng-click="change('airplay')">
+                <img class="option-icon" src="img/airplay.png" />
+                <h4 class="option-title">Airplay</h4>
+            </div>
+            <div class="option-choice-tile" ng-class="{ 'option-choice-tile-selected': Settings.settings.speaker === 'bluetooth' }" ng-click="change('bluetooth')">
+                <img class="option-icon" src="img/bluetooth.png" />
+                <h4 class="option-title">Bluetooth</h4>
+            </div>
+            
+            <button ng-show="changed || Settings.settings.speaker === 'bluetooth'" class="button button-small icon-left ion-checkmark button-balanced pull-right" ng-click="updateSpeaker()">Apply</button>
+
+            <!--
+            <h4 class="border-top">Speaker</h4>
+            <div class="list">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Speaker
+                    </div>
+                    <select ng-model="Settings.settings.speaker" ng-change="change()">
+                        <option>off</option>
+                        <option>airplay</option>
+                        <option>bluetooth</option>
+                    </select>
+                </label>
+            </div>
+
+            <button class="button icon-left ion-checkmark button-balanced pull-right" ng-show="changed" ng-click="updateSpeaker()">Apply</button>
+
+            <p>This device is now discoverable as <b>{{Settings.settings.speakerName}}</b></p>
+            -->
+        </div>
+    </ion-content>
+</ion-view>

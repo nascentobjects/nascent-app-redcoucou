@@ -1,0 +1,39 @@
+﻿
+<ion-view view-title="Device Setup">
+    <ion-content>
+        <div class="im-wrapper">
+            <h4 class="device-instructions" ng-show="!NascentBLE.isConnected() && !NascentBLE.foundCandidate">Please press the button on the back of your Red Speaker or CouCou Camera to enable a connection.</h4>
+            <h4 class="device-instructions" ng-show="!NascentBLE.isConnected() && NascentBLE.foundCandidate">Device found, connecting...</h4>
+            <div class="main-loading-container" ng-show="!NascentBLE.isConnected()">
+                <ion-spinner icon="lines" class="main-loading"></ion-spinner>
+            </div>
+            <img class="main-instructions" src="img/main_button_push.png" ng-show="!NascentBLE.isConnected() && !NascentBLE.foundCandidate">
+
+            <div class="module-row" ng-show="NascentBLE.isConnected()">
+                <div class="module-container">
+                    <div class="module-tile">
+                        <h4 class="modue-title">Main Module</h4>
+                        <img class="module" src="img/main.jpg" />
+                        <a class="button icon-left ion-wifi button-nascent module-button" href="#/app/wifisetup">Setup Wifi</a>
+                    </div>
+                </div>
+                <div class="module-container" ng-show="NascentBLE.modules.camera">
+                    <div class="module-tile">
+                        <h4 class="modue-title">Camera Module</h4>
+                        <img class="module" src="img/camera.jpg" />
+                        <a class="button icon-left ion-camera button-nascent module-button" href="#/app/camera">Camera</a>
+                    </div>
+                </div>
+                <div class="module-container" ng-show="NascentBLE.modules.speaker">
+                    <div class="module-tile">
+                        <h4 class="modue-title">Speaker Module</h4>
+                        <img class="module" src="img/speaker.png" />
+                        <a class="button icon-left ion-android-volume-down button-nascent module-button" href="#/app/speaker">Speaker</a>
+                    </div>
+                </div>
+            </div>
+            <h4 class="device-instructions" ng-show="NascentBLE.isConnected() && !NascentBLE.modules.camera && !NascentBLE.modules.speaker">Found main module, but no camera or speaker module.<br /><br />Please make sure your main module is placed in the device shape with a camera or speaker module.</h4>
+
+        </div>
+    </ion-content>
+</ion-view>

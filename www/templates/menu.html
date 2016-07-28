@@ -21,9 +21,29 @@
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
-                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('wifisetup') }" href="#/app/wifisetup">
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('device') }" href="#/app/device">
+                    <i class="icon ion-cube"></i>
+                    Nascent Shape
+                </ion-item>
+                <ion-item menu-close ng-show="NascentBLE.modules.main" class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('wifisetup') }" href="#/app/wifisetup">
                     <i class="icon ion-wifi"></i>
                     Wireless Setup
+                </ion-item>
+                <ion-item menu-close ng-show="NascentBLE.modules.speaker" class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('speaker') }" href="#/app/speaker">
+                    <i class="icon ion-android-volume-down"></i>
+                    Red Speaker
+                </ion-item>
+                <ion-item menu-close ng-show="NascentBLE.modules.camera" class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('camera') }" href="#/app/camera">
+                    <i class="icon ion-camera"></i>
+                    CouCou Camera
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('troubleshooting') }" href="#/app/troubleshooting">
+                    <i class="icon ion-hammer"></i>
+                    Troubleshooting
+                </ion-item>
+                <ion-item menu-close class="item-icon-left" ng-class="{ 'nascent-bg': isOnPage('about') }" href="#/app/about">
+                    <i class="icon ion-information-circled"></i>
+                    About
                 </ion-item>
             </ion-list>
         </ion-content>

@@ -36,6 +36,13 @@ var bluetoothle;
 function NascentDataSync(options) {
     EventEmitter.call(this);
 
+    console.log('----------------------------------');
+    console.log('----------------------------------');
+    console.log('----------------------------------');
+    console.log('----------------------------------');
+    console.log('----------------------------------');
+    console.log('----------------------------------');
+
     if (!('id' in options)) {
         throw 'An id must be given';
     }
@@ -61,10 +68,31 @@ function NascentDataSync(options) {
     this.pendingSubscribeData = '';
 
     var self = this;
-    this.whenConnected(function(result) {
-        self.log('CONNECTED');
-    }, function(err, stage) {
-        self.log('ERROR');
+    self.log('Checking permissions');
+    bluetoothle.hasPermission(function(result) {
+        self.log('Permission Result: ' + JSON.stringify(result));
+        if (result.requestPermission) {
+            self.log('Have Permission.  Moving on with normal connection');
+            self.whenConnected(function(result) {
+                self.log('CONNECTED');
+            }, function(err, stage) {
+                self.log('ERROR');
+            });
+            return;
+        }
+
+        self.log('No permission. requesting...');
+        bluetoothle.requestPermission(function(result) {
+            self.log('Permission Success: ' + JSON.stringify(result));
+            self.whenConnected(function(result) {
+                self.log('CONNECTED');
+            }, function(err, stage) {
+                self.log('ERROR');
+            });
+        }, function(err) {
+            self.log('Permission Failure: ' + JSON.stringify(err));
+            self.emit('no_permissions');
+        });
     });
 }
 
@@ -89,14 +117,59 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
         }
     }
 
-    function initialize(successCb, errCb) {
-        self.initializing = true;
-        self.log('Initializing');
+    function actuallyInitialize(successCb, errCb) {
+        startScan(successCb, deferCbs);
+        return;
         bluetoothle.initialize(function(result) {
             startScan(successCb, deferCbs);
         }, function(err) {
             self.initializing = false;
             self.log('Initialize err: ' + JSON.stringify(err));
+            if (errCb) {
+                errCb(err, 'initialize');
+            }
+        });
+    }
+
+    function enable(cb) {
+        self.log('Enabling');
+        bluetoothle.enable();
+        setTimeout(cb, 2500);
+    }
+
+    function disable(cb) {
+        self.log('Disabling');
+        bluetoothle.disable();
+        setTimeout(cb, 2500);
+    }
+
+    function initialize(successCb, errCb) {
+        self.initializing = true;
+        self.log('Initializing');
+
+        bluetoothle.initialize(function(result) {
+            bluetoothle.isEnabled(function(result) {
+                if (result.isEnabled) {
+                    self.log('Enabled, will disable then reenable');
+
+                    disable(function() {
+                        enable(function() {
+                            actuallyInitialize(successCb, errCb);
+                        });
+                    });
+                }
+            });
+        }, function(err) {
+            if (err.error === 'enable') {
+                self.log('Bluetooth not enabled, will do so');
+                enable(function() {
+                    actuallyInitialize(successCb, errCb);
+                });
+                return;
+            }
+
+            self.log('Initialize err: ' + JSON.stringify(err));
+            self.initializing = false;
             if (errCb) {
                 errCb(err, 'initialize');
             }
@@ -109,7 +182,8 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
             self.log('Scan Result: ' + JSON.stringify(result));
             console.log(self.deviceName);
             if (result.status === 'scanResult') {
-                if (result.name === self.deviceName) {
+                if (result.name === self.deviceName || result.name === 'BCM43340B0 37.4 MHz WLB' || result.name === 'NascentSpeaker') {
+                    self.emit('found_candidate');
                     console.log('Connecting to ' + self.deviceName);
                     connectDevice(result.address, successCb, errCb);
                 } else {
@@ -123,7 +197,7 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
                 errCb(err, 'startScan');
             }
         }, {
-            serviceUuids: []
+            services: []
         });
     }
 
@@ -146,7 +220,34 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
             }, function(err) {
                 self.initializing = false;
                 self.log('Connect Error: ' + JSON.stringify(err));
-                reconnectDevice(address, successCb, errCb);
+                if (self.connectedAddress === err.address) {
+                    self.emit('disconnect');
+                    self.connectedAddress = null;
+                }
+
+                errCb && errCb('Failed, restarting');
+                self.log('Closing connection after connect fail');
+
+                function redoSetup() {
+                    disable(function() {
+                        enable(function() {
+                            self.whenConnected(function() {
+                                self.log('Connected again after failed connection');
+                            });
+                        });
+                    });
+                }
+                bluetoothle.close(function(result) {
+                    self.log('Close Success: ' + JSON.stringify(err));
+                    redoSetup();
+                }, function(err) {
+                    self.log('Close Error: ' + JSON.stringify(err));
+                    redoSetup();
+                }, {
+                    address: address
+                });
+
+                //reconnectDevice(address, successCb, errCb);
             }, {
                 address: address
             });
@@ -228,8 +329,8 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
             }
         }, {
             address: address,
-            serviceUuid: self.serviceUUID,
-            characteristicUuid: self.NascentDataSyncCommandCharacteristicUUID,
+            service: self.serviceUUID,
+            characteristic: self.NascentDataSyncCommandCharacteristicUUID,
             isNotification: true
         });
     }
@@ -240,11 +341,12 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
             bluetoothle.discover(function(result) {
                 var found = false;
                 for (var a=0; a<result.services.length; ++a) {
-                    if (result.services[a].serviceUuid === self.serviceUUID) {
+                    if (result.services[a].uuid === self.serviceUUID) {
                         found = true;
                         break;
                     } else {
-                        self.log(result.services[a].serviceUuid + ' not ' + self.serviceUUID);
+                        self.log(JSON.stringify(result.services));
+                        self.log(result.services[a].uuid + ' not ' + self.serviceUUID);
                     } 
                 }
                 if (found) {
@@ -298,6 +400,7 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
         self.initializing = true;
         bluetoothle.isInitialized(function(result) {
             if (result.isInitialized) {
+                self.log('Already initialized.  Checking for scanning.');
                 bluetoothle.isScanning(function(result) {
                     if (result.isScanning) {
                         self.log('Already initialized and scanning.  Just wait for other result');
@@ -337,12 +440,14 @@ NascentDataSync.prototype.whenConnected = function(successCb, errCb) {
 
 NascentDataSync.prototype.receivedEventData = function(json) {
     var self = this;
+    var obj = '';
     try {
-        var obj = JSON.parse(json);
-        this.emit(obj.c, obj.a);
+        obj = JSON.parse(json);
     } catch (e) {
         console.log('nascent-datasync\tThrew out malformed json data packet: ' + json, e);
+        return;
     }
+    this.emit(obj.c, obj.a);
 };
 
 NascentDataSync.prototype.clearEventQueue = function() {
@@ -403,8 +508,8 @@ NascentDataSync.prototype.sendEvent = function(eventName, args) {
             }, {
                 address: self.connectedAddress,
                 value: v,
-                serviceUuid: self.serviceUUID,
-                characteristicUuid: self.NascentDataSyncCommandCharacteristicUUID
+                service: self.serviceUUID,
+                characteristic: self.NascentDataSyncCommandCharacteristicUUID
             });
         }
 

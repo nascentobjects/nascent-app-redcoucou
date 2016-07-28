@@ -370,3 +370,130 @@ p {
 .alexa-button:before {
     font-size: 10vw !important;
 }
+
+.main_logo {
+    padding: 30px;
+    width: 50%;
+    height: auto;
+}
+
+.main-instructions {
+    padding: 30px;
+    width: 100%;
+    height: auto;
+}
+
+.about_image {
+    width: 100%;
+    height: auto;
+}
+
+.nascent_url_container {
+    width: 100%;
+    height: 32px;
+    text-align: center;
+    padding: 10px;
+}
+
+.nascent_url {
+    font-size: 24px;
+}
+
+.main-loading-container {
+    width: 100%;
+    text-align: center;
+}
+
+.main-loading svg {
+    width: 64px;
+    height: auto;
+    stroke: #0cc0dc;
+    fill: #0cc0dc;
+}
+
+.device-instructions {
+    padding: 20px;
+    text-align: center;
+}
+
+.module-row {
+    width: 100%;
+    margin-left: 20%;
+}
+
+.module-container {
+    width: 60%;
+    padding: 1vw;
+}
+
+.module-tile {
+    background: rgba(0,0,0,0.1);
+    border-radius: 1vw;
+}
+
+.module {
+    padding: 1.5vw;
+    width: 100%;
+    height: auto;
+}
+
+.module-loading-bar {
+    margin: 1.5vw;
+    margin-top: 0;
+    padding: 1vw;
+    width: 27vw;
+    height: 60px;
+}
+
+.module-button {
+    margin: 5%;
+    margin-top: 0;
+    width: 90%
+}
+
+.modue-title {
+    transform: translate(20px, 15px);
+}
+
+.module-notfound {
+    filter: opacity(50%);
+    -webkit-filter: opacity(50%);
+}
+
+.error-well {
+    margin: 30px;
+    color: #a94442;
+    border: 1px solid #a94442;
+    border-radius: 5px;
+    background: #f2dede;
+    padding: 20px;
+    height: 80px;
+}
+
+.option-choice-tile {
+    padding: 2vw;
+    margin: 1vw;
+    margin-bottom: 2vw;
+    border-radius: 1vw;
+    background: rgba(0,0,0,0.1);
+    height: 17vw;
+}
+
+.option-choice-tile-selected {
+    background: rgba(12,191,220,0.2);
+}
+
+.option-title {
+    margin-left: 10vw;
+    width: 50vw;
+    float: left;
+}
+
+.option-icon {
+    position: absolute;
+    transform: translateX(0vw);
+    width: 8vw;
+    height: auto;
+    margin-top: -1vw;
+    transform: translateY(10%);
+}

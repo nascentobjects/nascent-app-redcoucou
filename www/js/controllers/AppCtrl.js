@@ -31,9 +31,11 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  * POSSIBILITY OF SUCH DAMAGE.
  */
-app.controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, $location, NascentBLE) {
+app.controller('AppCtrl', function ($scope, $rootScope, $ionicModal, $ionicPopover, $timeout, $location, NascentBLE) {
     // Form data for the login modal
     $scope.loginData = {};
+
+    $scope.NascentBLE = NascentBLE;
 
     $scope.isOnPage = function(pageName) {
         try {
@@ -52,29 +54,4 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout
             this.classList.toggle('active');
         });
     }
-
-    $scope.settings = {
-        volume: 100 
-    };
-    $scope.savedVolume = 100;
-
-    $scope.changeVolume = function() {
-        console.log('Volume: ', $scope.settings.volume);
-        if (Math.abs($scope.savedVolume - $scope.settings.volume) > 10) {
-            NascentBLE.sendEvent('s_volume', $scope.settings.volume);
-            $scope.savedVolume = $scope.settings.volume;
-            return;
-        }
-
-        if ($scope.delayedSetVolume) {
-            clearTimeout($scope.delayedSetVolume);
-            delete $scope.delayedSetVolume;
-        }
-        $scope.delayedSetVolume = setTimeout(function() {
-            console.log('Changing Volume ' + $scope.settings.volume);
-            delete $scope.delayedSetVolume;
-            NascentBLE.sendEvent('s_volume', $scope.settings.volume);
-            $scope.savedVolume = $scope.settings.volume;
-        }, 1000);
-    };
 });
